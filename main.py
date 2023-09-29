@@ -29,7 +29,7 @@ async def info_message(message):
 
 
 @bot.message_handler(func=lambda m: m.text.lower().split()[0] == '/all' and m.chat.type == 'private')
-async def info_message(message):
+async def private_message(message):
     if message.chat.id == config.admin:
         data = db.select_members()
         for id in data:
