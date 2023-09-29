@@ -16,6 +16,5 @@ def select_members():
     sql = f"SELECT user_id FROM members"
     cur.execute(sql)
     data = cur.fetchall()
-    print(data)
     con.close()
     return data
