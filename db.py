@@ -18,3 +18,4 @@ def select_members():
     data = cur.fetchall()
     con.close()
     return data
+

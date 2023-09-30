@@ -19,7 +19,7 @@ async def send_welcome(message):
 @bot.message_handler(func=lambda m: m.text.lower().split()[0] == '/public' and m.chat.type == 'private')
 async def info_message(message):
     if message.chat.id == config.admin:
-        await bot.send_message("@bottestim", ' '.join(message.text.split()[1:]),  parse_mode="Markdown")
+        await bot.send_message("@bottestim", message.text[7:],  parse_mode="Markdown")
 
 
 
@@ -27,8 +27,12 @@ async def info_message(message):
 async def private_message(message):
     if message.chat.id == config.admin:
         data = db.select_members()
+        print(data)
         for id in data:
-            await bot.send_message(id[0], ' '.join(message.text.split()[1:]),  parse_mode="Markdown")
+            try:
+                await bot.send_message(id[0],  message.text[4:],  parse_mode="Markdown")
+            except:
+                pass
 
 @bot.message_handler(content_types=['photo', 'text'])
 async def photo_message(message):
@@ -36,6 +40,8 @@ async def photo_message(message):
         file_id = message.photo[0].file_id
         data = db.select_members()
         for id in data:
-            await bot.send_photo(id[0],file_id, caption=message.caption)
-
+            try:
+                await bot.send_photo(id[0],file_id, caption=message.caption)
+            except:
+                pass
 asyncio.run(bot.polling())
